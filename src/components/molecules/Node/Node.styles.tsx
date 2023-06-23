@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NodeWrapperProps, DndProps } from './Node.types';
+import { NodeWrapperProps } from './Node.types';
 
 export const NodeWrapper = styled.div<NodeWrapperProps>`
   display: flex;
@@ -9,14 +9,12 @@ export const NodeWrapper = styled.div<NodeWrapperProps>`
   cursor: ${({ isBlocked }) => (isBlocked ? 'not-allowed' : 'move')};
   opacity: 1;
   transition: all 0.3s ease;
-  border: ${({ isDraggedOver }) => (isDraggedOver ? '2px dashed green' : 'none')};
 `;
 
-export const NodeContainer = styled.div<DndProps>`
+export const NodeContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 24px;
-  background-color: ${({ isHighlighted }) => (isHighlighted ? 'rgba(0, 0, 255, 0.2)' : 'initial')};
 `;
 
 export const Circle = styled.div<NodeWrapperProps>`
