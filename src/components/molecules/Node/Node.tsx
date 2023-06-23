@@ -9,12 +9,17 @@ import { NodeContainer, NodeWrapper, Circle } from './Node.styles';
 const Node: React.FC<NodeProps> = ({ id, level, label, isBlocked, children }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
+    const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        event.dataTransfer.setData('text', event.currentTarget.id);
+    }
+
     const handleToggle = () => {
         setIsExpanded((prevExpanded) => !prevExpanded);
     };
 
     return (
-        <NodeWrapper isBlocked={isBlocked}>
+        <NodeWrapper isBlocked={isBlocked} id={id} draggable="true" onDragStart={handleDragStart}>
             <Tooltip title={label} placement="right">
                 <Circle isBlocked={isBlocked}>{level === '0' ? 'START' : label}</Circle>
             </Tooltip>

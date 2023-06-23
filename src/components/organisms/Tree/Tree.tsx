@@ -5,6 +5,7 @@ import { Container, AddCircle } from './Tree.styles'
 
 import Node from '../../molecules/Node'
 import { NodeProps } from "./Tree.types";
+import DropZone from "../../atoms/DropZone";
 
 const initialTree: NodeProps = {
     id: ['0'],
@@ -67,6 +68,19 @@ const initialTree: NodeProps = {
 
 const Tree: React.FC = () => {
     const [tree, setTree] = useState<NodeProps>(initialTree);
+    const [ dragOver, setDragOver ] = React.useState(false);
+    const handleDragOverStart = () => setDragOver(true);
+    const handleDragOverEnd = () => setDragOver(false);
+
+    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        setDragOver(false);
+        const id = event.dataTransfer.getData('text');
+        console.log(`Somebody dropped an element with id: ${id}`);
+    }
+
+    const enableDropping = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+    }
 
     const findNode = (node: NodeProps, targetId: string): NodeProps | undefined => {
         if (node.id.join('.') === targetId) {
@@ -137,6 +151,7 @@ const Tree: React.FC = () => {
                     // onRemove={() => removeNode(parentId, node.id)}
                 >
                     {renderTreeNodes(node.children, node.level)}
+                    <DropZone dragOver={dragOver} enableDropping={enableDropping} handleDrop={handleDrop} handleDragOverStart={handleDragOverStart} handleDragOverEnd={handleDragOverEnd} />
                     <AddCircle onClick={() => { addNode(node.level) }} ><Add/></AddCircle>
                 </Node>
             )
@@ -145,8 +160,9 @@ const Tree: React.FC = () => {
 
     return (
         <Container>
-            <Node id="welcome" label="Welcome" level={'0'} isBlocked>
+            <Node id="welcome" label="Welcome" level={'0'} isBlocked >
                 {renderTreeNodes(tree.children, tree.level)}
+                <DropZone dragOver={dragOver} enableDropping={enableDropping} handleDrop={handleDrop} handleDragOverStart={handleDragOverStart} handleDragOverEnd={handleDragOverEnd} />
                 <AddCircle onClick={() => { addNode(tree.level) }} ><Add/></AddCircle>
             </Node>
         </Container>
