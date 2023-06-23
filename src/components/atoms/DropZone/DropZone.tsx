@@ -2,9 +2,10 @@ import React from 'react'
 import { Area } from './DropZone.styles'
 import {DropZoneProps} from "./DropZone.types";
 
-const DropZone: React.FC<DropZoneProps> = ({ dragOver, enableDropping, handleDrop, handleDragOverStart, handleDragOverEnd }) => {
+const DropZone: React.FC<DropZoneProps> = ({ id, dragOver, enableDropping, handleDrop, handleDragOverStart, handleDragOverEnd }) => {
     return (
         <Area
+            id={id}
             onDragOver={enableDropping}
             onDrop={handleDrop}
             onDragEnter={handleDragOverStart}

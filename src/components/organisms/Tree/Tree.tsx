@@ -74,8 +74,66 @@ const Tree: React.FC = () => {
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         setDragOver(false);
-        const id = event.dataTransfer.getData('text');
-        console.log(`Somebody dropped an element with id: ${id}`);
+        const droppedNodeId = event.dataTransfer.getData('text');
+        const parentNodeId = event.currentTarget.id;
+
+        const newTree = { ...tree };
+
+        console.log(droppedNodeId);
+        console.log(parentNodeId);
+
+        const findNodeIndex = (node: NodeProps, targetId: string): number => {
+            if (node.children) {
+                return node.children.findIndex(child => child.id.join('.') === targetId);
+            }
+            return -1;
+        };
+
+        const findParentNode = (node: NodeProps, targetId: string): NodeProps | undefined => {
+            if (node.id.join('.') === targetId) {
+                return node;
+            }
+
+            if (node.children) {
+                for (const child of node.children) {
+                    if (child.id.join('.') === targetId) {
+                        return node;
+                    }
+
+                    const foundNode = findParentNode(child, targetId);
+                    if (foundNode) {
+                        return foundNode;
+                    }
+                }
+            }
+
+            return undefined;
+        };
+
+        const removeNode = (node: NodeProps, targetId: string) => {
+            if (node.children) {
+                const index = findNodeIndex(node, targetId);
+                if (index > -1) {
+                    node.children.splice(index, 1);
+                    return;
+                }
+                for (const child of node.children) {
+                    removeNode(child, targetId);
+                }
+            }
+        };
+
+        const droppedNode = findNode(newTree, droppedNodeId);
+        const parentNode = findNode(newTree, parentNodeId);
+
+        if (droppedNode && parentNode) {
+            removeNode(newTree, droppedNodeId);
+            parentNode.children = [...(parentNode.children || []), droppedNode];
+        }
+
+        setTree(newTree);
+
+        console.log(tree)
     }
 
     const enableDropping = (event: React.DragEvent<HTMLDivElement>) => {
@@ -151,7 +209,7 @@ const Tree: React.FC = () => {
                     // onRemove={() => removeNode(parentId, node.id)}
                 >
                     {renderTreeNodes(node.children, node.level)}
-                    <DropZone dragOver={dragOver} enableDropping={enableDropping} handleDrop={handleDrop} handleDragOverStart={handleDragOverStart} handleDragOverEnd={handleDragOverEnd} />
+                    <DropZone id={node.level} dragOver={dragOver} enableDropping={enableDropping} handleDrop={handleDrop} handleDragOverStart={handleDragOverStart} handleDragOverEnd={handleDragOverEnd} />
                     <AddCircle onClick={() => { addNode(node.level) }} ><Add/></AddCircle>
                 </Node>
             )
@@ -162,7 +220,7 @@ const Tree: React.FC = () => {
         <Container>
             <Node id="welcome" label="Welcome" level={'0'} isBlocked >
                 {renderTreeNodes(tree.children, tree.level)}
-                <DropZone dragOver={dragOver} enableDropping={enableDropping} handleDrop={handleDrop} handleDragOverStart={handleDragOverStart} handleDragOverEnd={handleDragOverEnd} />
+                <DropZone id={tree.level} dragOver={dragOver} enableDropping={enableDropping} handleDrop={handleDrop} handleDragOverStart={handleDragOverStart} handleDragOverEnd={handleDragOverEnd} />
                 <AddCircle onClick={() => { addNode(tree.level) }} ><Add/></AddCircle>
             </Node>
         </Container>
