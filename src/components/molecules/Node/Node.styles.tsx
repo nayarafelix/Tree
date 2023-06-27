@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {NodeCircleProps, NodeWrapperProps} from './Node.types';
+import { NodeWrapperProps, NodeContainerProps, NodeCircleProps} from './Node.types';
 
 export const NodeWrapper = styled.div<NodeWrapperProps>`
   display: flex;
@@ -15,21 +15,31 @@ export const NodeBox = styled.div`
   align-items: center;
 `;
 
-export const NodeContainer = styled.div`
+export const NodeContainer = styled.div<NodeContainerProps>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ hasChildren }) => (hasChildren ? 'column' : 'row')};
+  align-items: ${({ hasChildren }) => (hasChildren ? 'flex-start' : 'center')};
   margin-left: 24px;
   position: relative;
-
-  &::before {
-    content: '';
-    background: #CCCCCC;
-    width: 2px;
-    height: 100%;
-    position: absolute;
-    left: 25px;
-    z-index: -1;
+  
+  &.level1 {
+    margin-top: -40px;
   }
+  
+  ${({ hasChildren }) =>
+    hasChildren &&
+    `
+    &::before {
+      content: '';
+      background: #CCCCCC;
+      width: 2px;
+      height: 100%;
+      position: absolute;
+      left: 25px;
+      z-index: -1;
+    }
+  `}
+      
 `;
 
 export const Circle = styled.div<NodeCircleProps>`

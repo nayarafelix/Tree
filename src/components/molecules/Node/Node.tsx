@@ -5,23 +5,16 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { NodeProps } from './Node.types';
-import type { TreeNode, SetTreeFunction } from './Node.types';
 import { NodeContainer, NodeBox, NodeWrapper, Circle } from './Node.styles';
-import AddCircle from '../../atoms/AddCircle'
 
-import addNode from '../../../utils/addNode'
-
-const Node: React.FC<NodeProps & { tree: TreeNode; setTree: SetTreeFunction }> = (
+const Node: React.FC<NodeProps> = (
 {
     id,
     level,
     label,
     isBlocked,
     onRemove,
-    isLastItem,
     children,
-    tree,
-    setTree,
 }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
@@ -38,6 +31,8 @@ const Node: React.FC<NodeProps & { tree: TreeNode; setTree: SetTreeFunction }> =
         const hue = (parseInt(level) * 30) % 360;
         return isBlocked ? '#0062cc' : `hsl(${hue}, 70%, 50%)`;
     };
+
+    const hasChildren = React.Children.toArray(children).length > 2;
 
     return (
         <>
@@ -63,15 +58,13 @@ const Node: React.FC<NodeProps & { tree: TreeNode; setTree: SetTreeFunction }> =
                 </NodeBox>
 
                 {isExpanded && (
-                    <NodeContainer>
+                    <NodeContainer hasChildren={hasChildren}>
                         {React.Children.map(children, (child) =>
                             React.isValidElement(child) ? React.cloneElement(child) : child
                         )}
                     </NodeContainer>
                 )}
             </NodeWrapper>
-
-            { isLastItem && <AddCircle onclick={ () => addNode(level, tree, setTree) }/> }
         </>
     );
 };

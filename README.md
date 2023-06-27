@@ -19,9 +19,6 @@ Onde cada nó pode ser movido para qualquer posição:
 - Coloração diferente para cada nível da árvore.
 - Botão para remover nó.
 
-## A ser implementado:
-- Drag and drop acima de outro nó.
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

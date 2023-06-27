@@ -4,13 +4,14 @@ import { Area } from './DropZone.styles'
 interface DropZoneProps {
     id: string;
     dragOver: boolean;
+    hasChildren: boolean;
     enableDropping: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
     handleDragOverStart: () => void;
     handleDragOverEnd: () => void;
 }
 
-const DropZone: React.FC<DropZoneProps> = ({ id, dragOver, enableDropping, handleDrop, handleDragOverStart, handleDragOverEnd }) => {
+const DropZone: React.FC<DropZoneProps> = ({ id, hasChildren, dragOver, enableDropping, handleDrop, handleDragOverStart, handleDragOverEnd }) => {
     return (
         <Area
             id={id}
@@ -18,9 +19,10 @@ const DropZone: React.FC<DropZoneProps> = ({ id, dragOver, enableDropping, handl
             onDrop={handleDrop}
             onDragEnter={handleDragOverStart}
             onDragLeave={handleDragOverEnd}
-            style={ dragOver ? { opacity: '1', fontWeight: 'bold'} : { opacity: '0' } }
+            dragOver={dragOver}
+            hasChildren={hasChildren}
         >
-            Soltar aqui
+            Puxe um item e solte aqui
         </Area>
     )
 }

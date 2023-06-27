@@ -15,6 +15,10 @@ export interface NodeWrapperProps {
     isBlocked?: boolean;
 }
 
+export interface NodeContainerProps {
+    hasChildren?: boolean;
+}
+
 export interface NodeCircleProps {
     color?: string;
 }
@@ -24,7 +28,6 @@ export interface NodeProps {
     label: string;
     isBlocked?: boolean;
     onRemove?: () => void;
-    isLastItem?: boolean;
     children?: React.ReactNode;
 }
 

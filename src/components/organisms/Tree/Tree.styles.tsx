@@ -9,8 +9,8 @@ export const Container = styled.div`
 `;
 
 export const BoxButtons = styled(Box)`
-  width: 600px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  width: 250px;
   margin-bottom: 20px;
 `;
