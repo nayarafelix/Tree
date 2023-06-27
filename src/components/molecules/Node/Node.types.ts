@@ -2,6 +2,7 @@ import React from "react";
 
 export interface NodeWrapperProps {
     isBlocked?: boolean;
+    color?: string;
 }
 
 export interface NodeProps {

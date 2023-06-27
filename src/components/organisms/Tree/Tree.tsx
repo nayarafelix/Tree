@@ -1,76 +1,24 @@
 import React, {useState} from 'react';
 
 import Add from '@mui/icons-material/Add';
-import { Container, AddCircle } from './Tree.styles'
+import { Container, AddCircle, BoxButtons } from './Tree.styles';
 
-import Node from '../../molecules/Node'
+import InitialTree from '../../modals/InitialTree';
+import Node from '../../molecules/Node';
 import { NodeProps } from "./Tree.types";
 import DropZone from "../../atoms/DropZone";
 
-const initialTree: NodeProps = {
-    id: ['0'],
-    level: '0',
-    label: 'start',
-    children: [
-        {
-            id: ['1'],
-            level: '1',
-            label: 'Node 1',
-            children: [
-                {
-                    id: ['1', '1'],
-                    level: '1.1',
-                    label: 'Node 1.1',
-                    children: [
-                        {
-                            id: ['1', '1', '1'],
-                            level: '1.1.1',
-                            label: 'Node 1.1.1',
-                            children: []
-                        },
-                        {
-                            id: ['1', '1', '2'],
-                            level: '1.1.2',
-                            label: 'Node 1.1.2',
-                            children: []
-                        }
-                    ]
-                },
-                {
-                    id: ['1', '2'],
-                    level: '1.2',
-                    label: 'Node 1.2',
-                    children: []
-                },
-                {
-                    id: ['1', '3'],
-                    level: '1.3',
-                    label: 'Node 1.3',
-                    children: []
-                }
-            ]
-        },
-        {
-            id: ['2'],
-            level: '2',
-            label: 'Node 2',
-            children: [
-                {
-                    id: ['2', '1'],
-                    level: '2.1',
-                    label: 'Node 2.1',
-                    children: []
-                }
-            ]
-        }
-    ]
-};
+import { treeClean, treeModel } from './Tree.mock'
+import Button from "@mui/material/Button";
 
 const Tree: React.FC = () => {
-    const [tree, setTree] = useState<NodeProps>(initialTree);
+    const [tree, setTree] = useState<NodeProps>(treeClean);
     const [ dragOver, setDragOver ] = React.useState(false);
     const handleDragOverStart = () => setDragOver(true);
     const handleDragOverEnd = () => setDragOver(false);
+
+    const setTreeModal = () => setTree(treeModel)
+    const setTreeClean = () => setTree(treeClean)
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         setDragOver(false);
@@ -78,9 +26,6 @@ const Tree: React.FC = () => {
         const parentNodeId = event.currentTarget.id;
 
         const newTree = { ...tree };
-
-        console.log(droppedNodeId);
-        console.log(parentNodeId);
 
         const findNodeIndex = (node: NodeProps, targetId: string): number => {
             if (node.children) {
@@ -133,7 +78,6 @@ const Tree: React.FC = () => {
 
         setTree(newTree);
 
-        console.log(tree)
     }
 
     const enableDropping = (event: React.DragEvent<HTMLDivElement>) => {
@@ -161,6 +105,9 @@ const Tree: React.FC = () => {
         const children = parentNode.children
 
         if (!children?.length) {
+
+            if (parentNode.id.join('.') === '0') return ["1"]
+
             return [...parentNode.id, "1"]
         }
 
@@ -192,7 +139,6 @@ const Tree: React.FC = () => {
             setTree({ ...tree });
         }
 
-        console.log(tree)
     };
 
     const renderTreeNodes = (nodes: NodeProps[] | undefined, parentId: string) => {
@@ -218,7 +164,13 @@ const Tree: React.FC = () => {
 
     return (
         <Container>
-            <Node id="welcome" label="Welcome" level={'0'} isBlocked >
+            <InitialTree handleModel={ setTreeModal } handleClean={ setTreeClean }/>
+
+            <BoxButtons>
+                <Button variant='contained' onClick={ setTreeClean }>Reiniciar</Button>
+            </BoxButtons>
+
+            <Node id="welcome" label="Welcome" level={'0'} isBlocked>
                 {renderTreeNodes(tree.children, tree.level)}
                 <DropZone id={tree.level} dragOver={dragOver} enableDropping={enableDropping} handleDrop={handleDrop} handleDragOverStart={handleDragOverStart} handleDragOverEnd={handleDragOverEnd} />
                 <AddCircle onClick={() => { addNode(tree.level) }} ><Add/></AddCircle>

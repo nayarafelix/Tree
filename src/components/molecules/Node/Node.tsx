@@ -18,10 +18,15 @@ const Node: React.FC<NodeProps> = ({ id, level, label, isBlocked, children }) =>
         setIsExpanded((prevExpanded) => !prevExpanded);
     };
 
+    const generateColor = (level: string, isBlocked: boolean | undefined) => {
+        const hue = (parseInt(level) * 30) % 360;
+        return isBlocked ? '#0062cc' : `hsl(${hue}, 70%, 50%)`;
+    };
+
     return (
         <NodeWrapper isBlocked={isBlocked} id={id} draggable="true" onDragStart={handleDragStart}>
             <Tooltip title={label} placement="right">
-                <Circle isBlocked={isBlocked}>{level === '0' ? 'START' : label}</Circle>
+                <Circle color={generateColor(level, isBlocked)}>{level === '0' ? 'START' : label}</Circle>
             </Tooltip>
 
             {!isExpanded && (

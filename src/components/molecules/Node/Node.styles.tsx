@@ -21,7 +21,7 @@ export const Circle = styled.div<NodeWrapperProps>`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: ${({ isBlocked }) => (isBlocked ? '#0062cc' : '#007bff')};
+  background-color: ${({ color }) => color};
   color: #fff;
   display: flex;
   align-items: center;
