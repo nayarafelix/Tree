@@ -12,7 +12,7 @@ const DropZone: React.FC<DropZoneProps> = ({ id, dragOver, enableDropping, handl
             onDragLeave={handleDragOverEnd}
             style={ dragOver ? { opacity: '1', fontWeight: 'bold'} : { opacity: '0' } }
         >
-            Drop Zone
+            Soltar aqui
         </Area>
     )
 }

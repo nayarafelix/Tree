@@ -11,4 +11,5 @@ export interface NodeProps {
     label: string;
     isBlocked?: boolean;
     children?: React.ReactNode;
+    onRemove?: () => void;
 }

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Tooltip } from '@mui/material';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { NodeProps } from './Node.types';
-import { NodeContainer, NodeWrapper, Circle } from './Node.styles';
+import { NodeContainer, NodeBox, NodeWrapper, Circle } from './Node.styles';
 
-const Node: React.FC<NodeProps> = ({ id, level, label, isBlocked, children }) => {
+const Node: React.FC<NodeProps> = ({ id, level, label, isBlocked, onRemove, children }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
     const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
@@ -25,26 +26,34 @@ const Node: React.FC<NodeProps> = ({ id, level, label, isBlocked, children }) =>
 
     return (
         <NodeWrapper isBlocked={isBlocked} id={id} draggable="true" onDragStart={handleDragStart}>
-            <Tooltip title={label} placement="right">
-                <Circle color={generateColor(level, isBlocked)}>{level === '0' ? 'START' : label}</Circle>
-            </Tooltip>
+            <NodeBox>
+                <Tooltip title={label} placement="right">
+                    <Circle color={generateColor(level, isBlocked)}>{level === '0' ? 'START' : label}</Circle>
+                </Tooltip>
 
-            {!isExpanded && (
-                <Tooltip title="Expandir" placement="right">
-                    <ArrowCircleRightIcon
-                        onClick={handleToggle}
-                        sx={{ color: 'gray', cursor: 'pointer' }}
-                    />
+                <Tooltip title="Remover" placement="right">
+                    <DeleteIcon onClick={onRemove} sx={{ color: 'gray', cursor: 'pointer' }} />
                 </Tooltip>
-            )}
-            {isExpanded && (
-                <Tooltip title="Recolher" placement="right">
-                    <ArrowDropDownCircleIcon
-                        onClick={handleToggle}
-                        sx={{ color: 'gray', cursor: 'pointer' }}
-                    />
-                </Tooltip>
-            )}
+
+                {!isExpanded && (
+                    <Tooltip title="Expandir" placement="right">
+                        <ArrowCircleRightIcon
+                            onClick={handleToggle}
+                            sx={{ color: 'gray', cursor: 'pointer' }}
+                        />
+                    </Tooltip>
+                )}
+
+                {isExpanded && (
+                    <Tooltip title="Recolher" placement="right">
+                        <ArrowDropDownCircleIcon
+                            onClick={handleToggle}
+                            sx={{ color: 'gray', cursor: 'pointer' }}
+                        />
+                    </Tooltip>
+                )}
+            </NodeBox>
+
             {isExpanded && (
                 <NodeContainer>
                     {React.Children.map(children, (child) =>

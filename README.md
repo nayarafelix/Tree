@@ -1,3 +1,27 @@
+# Construção de Árvore
+
+Este projeto tem como objetivo construir uma interface interativa de estrutura de árvore.\
+Onde cada nó pode ser movido para qualquer posição:
+- Abaixo de outro nó.
+- No mesmo nível.
+- Em níveis diferentes.
+- Como filho de outro nó.
+
+## Funcionalidades:
+
+- Ao clicar no botão (+), adiciona um novo nó, que deve será posicionado exatamente como filho do nó que o clique ocorreu.
+- O nó "start" é um nó bloqueado, e não pode ser arrastado/movido diretamente para outra posiçã., pois é o nó principal da árvore.
+- O ícone de seta na árvore, é responsável por minimizar e restaurar todo o grupo de nós da árvore.
+
+## Extras:
+
+- Modal de iniciação da árvore vazia ou por meio de modelo.
+- Coloração diferente para cada nível da árvore.
+- Botão para remover nó.
+
+## A ser implementado:
+- Drag and drop acima de outro nó.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
