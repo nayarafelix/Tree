@@ -1,15 +1,39 @@
 import React from "react";
 
-export interface NodeWrapperProps {
+export type TreeNode = {
+    id: string[];
+    level: string;
+    label: string;
     isBlocked?: boolean;
-    color?: string;
+    children?: TreeNode[];
+};
+
+export type SetTreeFunction = React.Dispatch<React.SetStateAction<TreeNode>>;
+
+export interface NodeWrapperProps {
+    id?: string;
+    isBlocked?: boolean;
 }
 
+export interface NodeCircleProps {
+    color?: string;
+}
 export interface NodeProps {
     id: string;
     level: string;
     label: string;
     isBlocked?: boolean;
-    children?: React.ReactNode;
     onRemove?: () => void;
+    isLastItem?: boolean;
+    children?: React.ReactNode;
+}
+
+export interface NodeArrayProps {
+    id: string[];
+    level: string;
+    label: string;
+    isBlocked?: boolean;
+    onRemove?: () => void;
+    isLastItem?: boolean;
+    children?: NodeArrayProps[];
 }

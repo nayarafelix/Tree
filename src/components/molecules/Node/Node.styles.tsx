@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NodeWrapperProps } from './Node.types';
+import {NodeCircleProps, NodeWrapperProps} from './Node.types';
 
 export const NodeWrapper = styled.div<NodeWrapperProps>`
   display: flex;
@@ -32,7 +32,7 @@ export const NodeContainer = styled.div`
   }
 `;
 
-export const Circle = styled.div<NodeWrapperProps>`
+export const Circle = styled.div<NodeCircleProps>`
   width: 50px;
   height: 50px;
   border-radius: 50%;

@@ -3,7 +3,11 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Button from "@mui/material/Button";
 import { BoxModal, BoxButtons } from './initialTree.styles'
-import { InitialTreeProps } from './initialTree.types';
+
+interface InitialTreeProps {
+    handleClean: () => void;
+    handleModel: () => void;
+}
 
 const InitialTree: React.FC<InitialTreeProps> = ({ handleClean, handleModel }) => {
     const [open, setOpen] = React.useState(true);

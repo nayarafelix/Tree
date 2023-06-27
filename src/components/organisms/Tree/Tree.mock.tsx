@@ -1,13 +1,13 @@
-import {NodeProps} from "./Tree.types";
+import { TreeNode } from "../../molecules/Node/Node.types";
 
-export const treeClean: NodeProps = {
+export const treeClean: TreeNode = {
     id: ['0'],
     level: '0',
     label: 'start',
     children: []
 };
 
-export const treeModel: NodeProps = {
+export const treeModel: TreeNode = {
     id: ['0'],
     level: '0',
     label: 'start',
