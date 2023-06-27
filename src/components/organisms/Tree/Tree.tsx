@@ -7,7 +7,7 @@ import InitialTree from '../../modals/InitialTree';
 import Node from '../../molecules/Node';
 import AddCircle from "../../atoms/AddCircle";
 import DropZone from "../../atoms/DropZone";
-import { TreeNode, NodeArrayProps } from "../../molecules/Node/Node.types";
+import { TreeNode } from "../../molecules/Node/Node.types";
 
 import { treeClean, treeModel } from './Tree.mock'
 
@@ -52,37 +52,16 @@ const Tree: React.FC = () => {
         event.preventDefault();
     }
 
-    const findParentNode = (node: NodeArrayProps, targetId: string): NodeArrayProps | undefined => {
-        if (node.id.join('.') === targetId) {
-            return node;
-        }
-
-        if (node.children) {
-            for (const child of node.children) {
-                if (child.id.join('.') === targetId) {
-                    return node;
-                }
-
-                const foundNode = findParentNode(child, targetId);
-                if (foundNode) {
-                    return foundNode;
-                }
-            }
-        }
-
-        return undefined;
-    };
-
     const handleRemoveNode = (targetId: string) => {
         const newTree = { ...tree };
         removeNode(newTree, targetId);
         setTree(newTree);
     }
 
-    const renderTreeNodes = (nodes: TreeNode[] | undefined, parentId: string) => {
+    const renderTreeNodes = (nodes: TreeNode[] | undefined) => {
         if (!nodes) return null;
 
-        return nodes.map((node, index) => {
+        return nodes.map((node) => {
             const hasChildren = !!(node.children && node.children.length > 0);
 
             return (
@@ -104,7 +83,7 @@ const Tree: React.FC = () => {
                         handleDragOverEnd={handleDragOverEnd}
                      />}
 
-                    {renderTreeNodes(node.children, node.level)}
+                    {renderTreeNodes(node.children)}
 
                     <DropZone
                         id={node.level}
@@ -144,7 +123,7 @@ const Tree: React.FC = () => {
                     handleDragOverEnd={handleDragOverEnd}
                 />}
 
-                {renderTreeNodes(tree.children, tree.level)}
+                {renderTreeNodes(tree.children)}
 
                 <DropZone
                     id={tree.level}

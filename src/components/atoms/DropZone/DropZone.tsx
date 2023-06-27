@@ -21,6 +21,7 @@ const DropZone: React.FC<DropZoneProps> = ({ id, hasChildren, dragOver, enableDr
             onDragLeave={handleDragOverEnd}
             dragOver={dragOver}
             hasChildren={hasChildren}
+            data-testid="drop-zone"
         >
             Puxe um item e solte aqui
         </Area>

@@ -3,12 +3,12 @@ import Add from "@mui/icons-material/Add";
 import { BtnAdd } from './AddCircle.styles';
 
 interface AddCircleProps {
-    onclick: () => any
+    onclick: () => void
 }
 
 const AddCircle = ({onclick}: AddCircleProps) => {
     return (
-        <BtnAdd onClick={onclick} ><Add/></BtnAdd>
+        <BtnAdd onClick={onclick} data-testid="add-button"><Add/></BtnAdd>
     )
 }
 
